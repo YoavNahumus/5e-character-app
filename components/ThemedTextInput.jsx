@@ -1,4 +1,4 @@
-import { TextInput } from "react-native-web";
+import { TextInput } from "react-native";
 
 import { useThemeColor } from "@/hooks/useThemeColor";
 

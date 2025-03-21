@@ -1,6 +1,6 @@
 import { Stack } from 'expo-router';
 import ThemedStack from '../components/ThemedStack';
-import { View } from 'react-native-web';
+import { View } from 'react-native';
 
 export default function Layout() {
   return (
