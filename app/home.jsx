@@ -1,7 +1,11 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Link } from 'expo-router';
 import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ThemedView } from '../components/ThemedView';
+import { ThemedText } from '../components/ThemedText';
+import { ThemedTouchableOpacity } from '../components/ThemedTouchableOpacity';
+import { ThemedScrollView } from '../components/ThemedScrollView';
 
 export default function Home() {
   const [characters, setCharacters] = useState([]);
@@ -13,24 +17,24 @@ export default function Home() {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>D&D 5E Character Manager</Text>
-      <ScrollView style={styles.content}>
+    <ThemedView style={styles.container}>
+      <ThemedText style={styles.title}>D&D 5E Character Manager</ThemedText>
+      <ThemedScrollView style={styles.content}>
         {characters.map((char, index) => (
           <Link key={index} href={`/character/view?id=${char.id}`} asChild>
-            <TouchableOpacity key={index} style={styles.characterCard}>
-              <Text style={styles.characterName}>{char.name}</Text>
-              <Text style={styles.characterInfo}>{char.race} - {char.class}</Text>
-            </TouchableOpacity>
+            <ThemedTouchableOpacity key={index} style={styles.characterCard}>
+              <ThemedText style={styles.characterName}>{char.name}</ThemedText>
+              <ThemedText style={styles.characterInfo}>{char.race} - {char.class}</ThemedText>
+            </ThemedTouchableOpacity>
           </Link>
         ))}
-      </ScrollView>
+      </ThemedScrollView>
       <Link href="/character/new" asChild>
         <TouchableOpacity style={styles.createButton}>
-          <Text style={styles.buttonText}>Create New Character</Text>
+          <ThemedText style={styles.buttonText}>Create New Character</ThemedText>
         </TouchableOpacity>
       </Link>
-    </View>
+    </ThemedView>
   );
 }
 
@@ -38,7 +42,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#f5f5f5',
   },
   title: {
     fontSize: 24,
@@ -50,7 +53,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   characterCard: {
-    backgroundColor: 'white',
     padding: 15,
     borderRadius: 10,
     marginBottom: 10,
@@ -66,7 +68,6 @@ const styles = StyleSheet.create({
   },
   characterInfo: {
     fontSize: 14,
-    color: '#666',
     marginTop: 5,
   },
   createButton: {

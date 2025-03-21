@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAbilityModifier } from '../../utils/dataLoader';
+import { ThemedView } from '../../components/ThemedView';
+import { ThemedText } from '../../components/ThemedText';
+import { ThemedTouchableOpacity } from '../../components/ThemedTouchableOpacity';
+import { ThemedScrollView } from '../../components/ThemedScrollView';
 
 export default function ViewCharacter() {
   const params = useLocalSearchParams();
@@ -46,23 +50,23 @@ export default function ViewCharacter() {
 
   if (loading) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Loading character...</Text>
-      </View>
+      <ThemedView style={styles.container}>
+        <ThemedText style={styles.title}>Loading character...</ThemedText>
+      </ThemedView>
     );
   }
 
   if (!character) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Character not found</Text>
-        <TouchableOpacity 
+      <ThemedView style={styles.container}>
+        <ThemedText style={styles.title}>Character not found</ThemedText>
+        <ThemedTouchableOpacity 
           style={styles.button}
           onPress={() => router.replace('/')}
         >
-          <Text style={styles.buttonText}>Return to Home</Text>
-        </TouchableOpacity>
-      </View>
+          <ThemedText style={styles.buttonText}>Return to Home</ThemedText>
+        </ThemedTouchableOpacity>
+      </ThemedView>
     );
   }
 
@@ -75,76 +79,76 @@ export default function ViewCharacter() {
   }
 
   return (
-    <View style={styles.container}>
-      <ScrollView style={styles.scrollView}>
-        <View style={styles.headerContainer}>
-          <Text style={styles.characterName}>{character.name}</Text>
-          <View style={styles.subheader}>
-            <Text style={styles.detail}>{character.race} {character.class}</Text>
-            <Text style={styles.detail}>Level {character.level}</Text>
-            <Text style={styles.detail}>Background: {character.background}</Text>
-          </View>
-        </View>
+    <ThemedView style={styles.container}>
+      <ThemedScrollView style={styles.ThemedScrollView}>
+        <ThemedView style={styles.headerContainer}>
+          <ThemedText style={styles.characterName}>{character.name}</ThemedText>
+          <ThemedView style={styles.subheader}>
+            <ThemedText style={styles.detail}>{character.race} {character.class}</ThemedText>
+            <ThemedText style={styles.detail}>Level {character.level}</ThemedText>
+            <ThemedText style={styles.detail}>Background: {character.background}</ThemedText>
+          </ThemedView>
+        </ThemedView>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Ability Scores</Text>
-          <View style={styles.abilityScoresContainer}>
+        <ThemedView style={styles.section}>
+          <ThemedText style={styles.sectionTitle}>Ability Scores</ThemedText>
+          <ThemedView style={styles.abilityScoresContainer}>
             {character.abilities && Object.entries(character.abilities).map(([ability, score]) => (
-              <View key={ability} style={styles.abilityScore}>
-                <Text style={styles.abilityName}>{ability.slice(0, 3).toUpperCase()}</Text>
-                <Text style={styles.abilityValue}>{score}</Text>
-                <Text style={styles.abilityModifier}>
+              <ThemedView key={ability} style={styles.abilityScore}>
+                <ThemedText style={styles.abilityName}>{ability.slice(0, 3).toUpperCase()}</ThemedText>
+                <ThemedText style={styles.abilityValue}>{score}</ThemedText>
+                <ThemedText style={styles.abilityModifier}>
                   {abilityModifiers[ability] >= 0 ? `+${abilityModifiers[ability]}` : abilityModifiers[ability]}
-                </Text>
-              </View>
+                </ThemedText>
+              </ThemedView>
             ))}
-          </View>
-        </View>
+          </ThemedView>
+        </ThemedView>
 
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Proficiency Bonus</Text>
-          <Text style={styles.proficiencyBonus}>+{character.proficiencyBonus}</Text>
-        </View>
+        <ThemedView style={styles.section}>
+          <ThemedText style={styles.sectionTitle}>Proficiency Bonus</ThemedText>
+          <ThemedText style={styles.proficiencyBonus}>+{character.proficiencyBonus}</ThemedText>
+        </ThemedView>
 
         {character.skills && character.skills.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Skills</Text>
-            <View style={styles.skillsContainer}>
+          <ThemedView style={styles.section}>
+            <ThemedText style={styles.sectionTitle}>Skills</ThemedText>
+            <ThemedView style={styles.skillsContainer}>
               {character.skills.map((skill, index) => (
-                <Text key={index} style={styles.skill}>
+                <ThemedText key={index} style={styles.skill}>
                   {typeof skill === 'string' 
                     ? skill.charAt(0).toUpperCase() + skill.slice(1)
                     : ''}
-                </Text>
+                </ThemedText>
               ))}
-            </View>
-          </View>
+            </ThemedView>
+          </ThemedView>
         )}
 
         {character.features && character.features.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Features</Text>
+          <ThemedView style={styles.section}>
+            <ThemedText style={styles.sectionTitle}>Features</ThemedText>
             {character.features.map((feature, index) => (
-              <View key={index} style={styles.featureItem}>
-                <Text style={styles.featureName}>
+              <ThemedView key={index} style={styles.featureItem}>
+                <ThemedText style={styles.featureName}>
                   {feature.name || 'Feature'}
-                </Text>
-                <Text style={styles.featureDescription}>
+                </ThemedText>
+                <ThemedText style={styles.featureDescription}>
                   {feature.description || feature.entries || ''}
-                </Text>
-              </View>
+                </ThemedText>
+              </ThemedView>
             ))}
-          </View>
+          </ThemedView>
         )}
 
-        <TouchableOpacity 
+        <ThemedTouchableOpacity 
           style={styles.button}
           onPress={() => router.replace('/')}
         >
-          <Text style={styles.buttonText}>Return to Home</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </View>
+          <ThemedText style={styles.buttonText}>Return to Home</ThemedText>
+        </ThemedTouchableOpacity>
+      </ThemedScrollView>
+    </ThemedView>
   );
 }
 
@@ -152,35 +156,30 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#fff',
   },
-  scrollView: {
+  ThemedScrollView: {
     flex: 1,
   },
   headerContainer: {
     marginBottom: 24,
     borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
     paddingBottom: 16,
   },
   characterName: {
     fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 8,
-    color: '#333',
   },
   subheader: {
     marginBottom: 8,
   },
   detail: {
     fontSize: 16,
-    color: '#555',
     marginBottom: 4,
   },
   section: {
     marginBottom: 24,
     padding: 16,
-    backgroundColor: '#f9f9f9',
     borderRadius: 8,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
@@ -192,7 +191,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 12,
-    color: '#222',
   },
   abilityScoresContainer: {
     flexDirection: 'row',
@@ -202,7 +200,6 @@ const styles = StyleSheet.create({
   abilityScore: {
     width: '30%',
     padding: 12,
-    backgroundColor: '#eee',
     borderRadius: 8,
     alignItems: 'center',
     marginBottom: 12,
@@ -231,7 +228,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
   },
   skill: {
-    backgroundColor: '#e0f2f1',
     paddingVertical: 6,
     paddingHorizontal: 12,
     borderRadius: 16,
@@ -243,7 +239,6 @@ const styles = StyleSheet.create({
   featureItem: {
     marginBottom: 16,
     padding: 12,
-    backgroundColor: '#fff',
     borderRadius: 6,
     borderLeftWidth: 3,
     borderLeftColor: '#2196F3',
@@ -256,7 +251,6 @@ const styles = StyleSheet.create({
   },
   featureDescription: {
     fontSize: 14,
-    color: '#555',
     lineHeight: 20,
   },
   button: {

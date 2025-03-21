@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { ThemedView } from '@/components/ThemedView'
+import { ThemedText } from '@/components/ThemedText'
+import { ThemedTouchableOpacity } from '@/components/ThemedTouchableOpacity'
 
 /**
  * Component for setting ability scores
@@ -86,13 +89,13 @@ const AbilityScores = ({ character, setCharacter, goToNext, goBack }) => {
   };
 
   return (
-    <View style={styles.section}>
-      <Text style={styles.title}>Set Ability Scores</Text>
-      <Text style={styles.subtitle}>
+    <ThemedView style={styles.section}>
+      <ThemedText style={styles.title}>Set Ability Scores</ThemedText>
+      <ThemedText style={styles.subtitle}>
         Points remaining: {availablePoints}
-      </Text>
+      </ThemedText>
       
-      <View style={styles.abilityContainer}>
+      <ThemedView style={styles.abilityContainer}>
         {Object.entries(abilities).map(([ability, score]) => {
           const finalScore = getFinalScore(ability);
           const modifier = getAbilityModifier(finalScore);
@@ -100,58 +103,58 @@ const AbilityScores = ({ character, setCharacter, goToNext, goBack }) => {
           const raceBonus = (character.abilityBonuses && character.abilityBonuses[ability]) || 0;
           
           return (
-            <View key={ability} style={styles.abilityRow}>
-              <Text style={styles.abilityName}>
+            <ThemedView key={ability} style={styles.abilityRow}>
+              <ThemedText style={styles.abilityName}>
                 {ability.charAt(0).toUpperCase() + ability.slice(1)}
-              </Text>
+              </ThemedText>
               
-              <View style={styles.scoreControls}>
-                <TouchableOpacity
+              <ThemedView style={styles.scoreControls}>
+                <ThemedTouchableOpacity
                   style={[styles.controlButton, abilities[ability] <= 8 && styles.disabledButton]}
                   onPress={() => updateAbility(ability, -1)}
                   disabled={abilities[ability] <= 8}
                 >
-                  <Text style={styles.controlButtonText}>-</Text>
-                </TouchableOpacity>
+                  <ThemedText style={styles.controlButtonText}>-</ThemedText>
+                </ThemedTouchableOpacity>
                 
-                <View style={styles.scoreDisplay}>
-                  <Text style={styles.baseScore}>{score}</Text>
+                <ThemedView style={styles.scoreDisplay}>
+                  <ThemedText style={styles.baseScore}>{score}</ThemedText>
                   {raceBonus > 0 && (
-                    <Text style={styles.raceBonus}>+{raceBonus}</Text>
+                    <ThemedText style={styles.raceBonus}>+{raceBonus}</ThemedText>
                   )}
-                  <Text style={styles.finalScore}>{finalScore}</Text>
-                  <Text style={styles.modifier}>{modifierDisplay}</Text>
-                </View>
+                  <ThemedText style={styles.finalScore}>{finalScore}</ThemedText>
+                  <ThemedText style={styles.modifier}>{modifierDisplay}</ThemedText>
+                </ThemedView>
                 
-                <TouchableOpacity
+                <ThemedTouchableOpacity
                   style={[styles.controlButton, (abilities[ability] >= 15 || availablePoints < getPointCost(abilities[ability])) && styles.disabledButton]}
                   onPress={() => updateAbility(ability, 1)}
                   disabled={abilities[ability] >= 15 || availablePoints < getPointCost(abilities[ability])}
                 >
-                  <Text style={styles.controlButtonText}>+</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
+                  <ThemedText style={styles.controlButtonText}>+</ThemedText>
+                </ThemedTouchableOpacity>
+              </ThemedView>
+            </ThemedView>
           );
         })}
-      </View>
+      </ThemedView>
       
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity 
+      <ThemedView style={styles.buttonContainer}>
+        <ThemedTouchableOpacity 
           style={styles.backButton}
           onPress={goBack}
         >
-          <Text style={styles.buttonText}>Back</Text>
-        </TouchableOpacity>
+          <ThemedText style={styles.buttonText}>Back</ThemedText>
+        </ThemedTouchableOpacity>
         
-        <TouchableOpacity 
+        <ThemedTouchableOpacity 
           style={styles.nextButton}
           onPress={finalizeAbilityScores}
         >
-          <Text style={styles.buttonText}>Next</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+          <ThemedText style={styles.buttonText}>Next</ThemedText>
+        </ThemedTouchableOpacity>
+      </ThemedView>
+    </ThemedView>
   );
 };
 

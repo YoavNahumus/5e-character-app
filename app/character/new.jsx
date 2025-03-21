@@ -21,6 +21,9 @@ import BackgroundSelection from '../../components/character/BackgroundSelection'
 import AbilityScores from '../../components/character/AbilityScores';
 import CharacterSummary from '../../components/character/CharacterSummary';
 import FeatureModal from '../../components/character/FeatureModal';
+import { ThemedView } from '../../components/ThemedView';
+import { ThemedText } from '../../components/ThemedText';
+import { ThemedTextInput } from '../../components/ThemedTextInput';
 
 export default function NewCharacterScreen() {
   const router = useRouter();
@@ -226,24 +229,24 @@ export default function NewCharacterScreen() {
   
   // Render functions for each step
   const renderNameInput = () => (
-    <View style={styles.section}>
-      <Text style={styles.title}>Name Your Character</Text>
-      <TextInput
+    <ThemedView style={styles.section}>
+      <ThemedText style={styles.title}>Name Your Character</ThemedText>
+      <ThemedTextInput
         style={styles.nameInput}
         placeholder="Enter character name"
         value={character.name}
         onChangeText={(text) => setCharacter({...character, name: text})}
       />
-      <View style={styles.buttonContainer}>
-        <View style={styles.spacer} />
+      <ThemedView style={styles.buttonContainer}>
+        <ThemedView style={styles.spacer} />
         <TouchableOpacity 
           style={styles.nextButton}
           onPress={() => setCurrentStep('race')}
         >
-          <Text style={styles.buttonText}>Next</Text>
+          <ThemedText style={styles.buttonText}>Next</ThemedText>
         </TouchableOpacity>
-      </View>
-    </View>
+      </ThemedView>
+    </ThemedView>
   );
   
   // Render the current step
@@ -305,7 +308,6 @@ export default function NewCharacterScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   section: {
     padding: 20,
@@ -318,7 +320,6 @@ const styles = StyleSheet.create({
   },
   nameInput: {
     borderWidth: 1,
-    borderColor: '#ddd',
     padding: 15,
     borderRadius: 8,
     fontSize: 18,

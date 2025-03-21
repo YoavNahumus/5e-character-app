@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { ThemedScrollView } from '@/components/ThemedScrollView';
+import { ThemedTextInput } from '@/components/ThemedTextInput';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedTouchableOpacity } from '@/components/ThemedTouchableOpacity';
+import { ThemedView } from '@/components/ThemedView';
 
 /**
  * Component for selecting a character class
@@ -13,58 +18,58 @@ const ClassSelection = ({ classes, selectClass, showClassFeatures }) => {
   );
   
   return (
-    <View style={styles.section}>
-      <Text style={styles.title}>Choose Your Class</Text>
-      <Text style={styles.subtitle}>Your class determines your abilities and progression</Text>
+    <ThemedView style={styles.section}>
+      <ThemedText style={styles.title}>Choose Your Class</ThemedText>
+      <ThemedText style={styles.subtitle}>Your class determines your abilities and progression</ThemedText>
       
-      <TextInput
+      <ThemedTextInput
         style={styles.searchInput}
         placeholder="Search classes..."
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
       
-      <ScrollView style={styles.selectionContainer}>
+      <ThemedScrollView style={styles.selectionContainer}>
         {filteredClasses.map((charClass, index) => (
-          <View key={`${charClass.name}-${index}`} style={styles.cardContainer}>
-            <TouchableOpacity 
+          <ThemedView key={`${charClass.name}-${index}`} style={styles.cardContainer}>
+            <ThemedTouchableOpacity 
               style={styles.card}
               onPress={() => selectClass(charClass)}
             >
-              <View>
-                <Text style={styles.optionName}>{charClass.name}</Text>
-                <Text style={styles.optionDescription}>
+              <ThemedView style={styles.option}>
+                <ThemedText style={styles.optionName}>{charClass.name}</ThemedText>
+                <ThemedText style={styles.optionDescription}>
                   Hit Die: d{charClass.hd && charClass.hd.faces}
-                </Text>
+                </ThemedText>
                 {charClass.proficiency && (
-                  <Text style={styles.optionDescription}>
+                  <ThemedText style={styles.optionDescription}>
                     Proficient Saves: {Array.isArray(charClass.proficiency.saves) 
                       ? charClass.proficiency.saves.join(', ') 
                       : 'None'}
-                  </Text>
+                  </ThemedText>
                 )}
-              </View>
+              </ThemedView>
               
-              <View style={styles.cardFooter}>
-                <TouchableOpacity 
+              <ThemedView style={styles.cardFooter}>
+                <ThemedTouchableOpacity 
                   style={styles.viewFeaturesButton}
                   onPress={() => showClassFeatures(charClass)}
                 >
-                  <Text style={styles.viewFeaturesText}>View Features</Text>
-                </TouchableOpacity>
+                  <ThemedText style={styles.viewFeaturesText}>View Features</ThemedText>
+                </ThemedTouchableOpacity>
                 
-                <TouchableOpacity 
+                <ThemedTouchableOpacity 
                   style={styles.selectButton}
                   onPress={() => selectClass(charClass)}
                 >
-                  <Text style={styles.selectButtonText}>Select</Text>
-                </TouchableOpacity>
-              </View>
-            </TouchableOpacity>
-          </View>
+                  <ThemedText style={styles.selectButtonText}>Select</ThemedText>
+                </ThemedTouchableOpacity>
+              </ThemedView>
+            </ThemedTouchableOpacity>
+          </ThemedView>
         ))}
-      </ScrollView>
-    </View>
+      </ThemedScrollView>
+    </ThemedView>
   );
 };
 
@@ -86,11 +91,9 @@ const styles = StyleSheet.create({
   searchInput: {
     height: 40,
     borderWidth: 1,
-    borderColor: '#ddd',
     borderRadius: 8,
     paddingHorizontal: 10,
     marginBottom: 10,
-    backgroundColor: '#fff',
   },
   selectionContainer: {
     flex: 1,
@@ -99,7 +102,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   card: {
-    backgroundColor: '#f9f9f9',
     borderRadius: 8,
     padding: 15,
     shadowColor: '#000',
@@ -107,6 +109,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 2,
     elevation: 3,
+  },
+  option: {
+    padding: 10,
+    borderRadius: 5,
   },
   optionName: {
     fontSize: 18,

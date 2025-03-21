@@ -1,5 +1,9 @@
 import React from 'react';
-import { Modal, View, Text, TouchableOpacity, ScrollView, StyleSheet } from 'react-native';
+import { Modal, StyleSheet } from 'react-native';
+import { ThemedScrollView } from '@/components/ThemedScrollView';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedTouchableOpacity } from '@/components/ThemedTouchableOpacity';
+import { ThemedView } from '@/components/ThemedView';
 
 /**
  * Component for displaying feature details in a modal
@@ -12,15 +16,15 @@ const FeatureModal = ({ visible, content, onClose, parseSpecialTags }) => {
       visible={visible}
       onRequestClose={onClose}
     >
-      <View style={styles.modalContainer}>
-        <View style={styles.modalContent}>
-          <Text style={styles.modalTitle}>{content?.title || 'Features'}</Text>
+      <ThemedView style={styles.modalContainer}>
+        <ThemedView style={styles.modalContent}>
+          <ThemedText style={styles.modalTitle}>{content?.title || 'Features'}</ThemedText>
           
-          <ScrollView style={styles.modalBody}>
+          <ThemedScrollView style={styles.modalBody}>
             {content?.content && content.content.map((feature, index) => (
-              <View style={styles.featureItem} key={index}>
-                <Text style={styles.featureTitle}>{feature.name}</Text>
-                <Text style={styles.featureDescription}>
+              <ThemedView style={styles.featureItem} key={index}>
+                <ThemedText style={styles.featureTitle}>{feature.name}</ThemedText>
+                <ThemedText style={styles.featureDescription}>
                   {typeof feature.entries === 'string' ? parseSpecialTags(feature.entries) : 
                    Array.isArray(feature.entries) ? feature.entries.map(entry => {
                      if (typeof entry === 'string') return parseSpecialTags(entry);
@@ -38,19 +42,19 @@ const FeatureModal = ({ visible, content, onClose, parseSpecialTags }) => {
                      return '';
                    }).join('\n') : 
                    'No description available'}
-                </Text>
-              </View>
+                </ThemedText>
+              </ThemedView>
             ))}
-          </ScrollView>
+          </ThemedScrollView>
           
-          <TouchableOpacity
+          <ThemedTouchableOpacity
             style={styles.closeButton}
             onPress={onClose}
           >
-            <Text style={styles.closeButtonText}>Close</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+            <ThemedText style={styles.closeButtonText}>Close</ThemedText>
+          </ThemedTouchableOpacity>
+        </ThemedView>
+      </ThemedView>
     </Modal>
   );
 };
@@ -64,7 +68,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   modalContent: {
-    backgroundColor: 'white',
+    backgroundColor: 'rgb(11, 13, 15)',
     borderRadius: 10,
     padding: 20,
     width: '90%',
@@ -80,10 +84,9 @@ const styles = StyleSheet.create({
     maxHeight: 400,
   },
   featureItem: {
-    marginBottom: 15,
-    paddingBottom: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    padding: 15,
+    borderBottomWidth: 3,
+    borderColor: 'rgb(11, 13, 15)'
   },
   featureTitle: {
     fontSize: 18,

@@ -1,66 +1,69 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedTouchableOpacity } from '@/components/ThemedTouchableOpacity';
 
 /**
  * Component for displaying character summary and saving
  */
 const CharacterSummary = ({ character, getAbilityModifier, saveCharacter, goBack }) => {
   return (
-    <View style={styles.section}>
-      <Text style={styles.title}>Character Summary</Text>
+    <ThemedView style={styles.section}>
+      <ThemedText style={styles.title}>Character Summary</ThemedText>
       
-      <View style={styles.summaryContainer}>
-        <Text style={styles.summaryItem}>Name: {character.name || 'Unnamed'}</Text>
-        <Text style={styles.summaryItem}>Race: {character.race}</Text>
-        <Text style={styles.summaryItem}>Class: {character.class}</Text>
-        <Text style={styles.summaryItem}>Background: {character.background}</Text>
+      <ThemedView style={styles.summaryContainer}>
+        <ThemedText style={styles.summaryItem}>Name: {character.name || 'Unnamed'}</ThemedText>
+        <ThemedText style={styles.summaryItem}>Race: {character.race}</ThemedText>
+        <ThemedText style={styles.summaryItem}>Class: {character.class}</ThemedText>
+        <ThemedText style={styles.summaryItem}>Background: {character.background}</ThemedText>
         
-        <Text style={styles.summaryHeader}>Ability Scores:</Text>
+        <ThemedText style={styles.summaryHeader}>Ability Scores:</ThemedText>
         {character.abilities && Object.entries(character.abilities).map(([ability, score]) => {
           const modifier = getAbilityModifier(score);
           const modifierText = modifier >= 0 ? `+${modifier}` : `${modifier}`;
           return (
-            <Text key={ability} style={styles.summaryItem}>
+            <ThemedText key={ability} style={styles.summaryItem}>
               {ability.charAt(0).toUpperCase() + ability.slice(1)}: {score} ({modifierText})
-            </Text>
+            </ThemedText>
           );
         })}
         
         {character.skills && character.skills.length > 0 && (
           <>
-            <Text style={styles.summaryHeader}>Skills:</Text>
-            <Text style={styles.summaryItem}>{character.skills.join(', ')}</Text>
+            <ThemedText style={styles.summaryHeader}>Skills:</ThemedText>
+            <ThemedText style={styles.summaryItem}>{character.skills.join(', ')}</ThemedText>
           </>
         )}
         
         {character.features && character.features.length > 0 && (
           <>
-            <Text style={styles.summaryHeader}>Features:</Text>
+            <ThemedText style={styles.summaryHeader}>Features:</ThemedText>
             {character.features.map((feature, index) => (
-              <Text key={index} style={styles.summaryItem}>
+              <ThemedText key={index} style={styles.summaryItem}>
                 {typeof feature === 'string' ? feature : feature.name}
-              </Text>
+              </ThemedText>
             ))}
           </>
         )}
-      </View>
+      </ThemedView>
       
-      <View style={styles.buttonContainer}>
-        <TouchableOpacity 
+      <ThemedView style={styles.buttonContainer}>
+        <ThemedTouchableOpacity 
           style={styles.backButton}
           onPress={goBack}
         >
-          <Text style={styles.buttonText}>Back</Text>
-        </TouchableOpacity>
+          <ThemedText style={styles.buttonText}>Back</ThemedText>
+        </ThemedTouchableOpacity>
         
-        <TouchableOpacity 
+        <ThemedTouchableOpacity 
           style={styles.finishButton}
           onPress={saveCharacter}
         >
-          <Text style={styles.buttonText}>Save Character</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+          <ThemedText style={styles.buttonText}>Save Character</ThemedText>
+        </ThemedTouchableOpacity>
+      </ThemedView>
+    </ThemedView>
   );
 };
 
@@ -75,7 +78,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   summaryContainer: {
-    backgroundColor: '#f9f9f9',
     borderRadius: 8,
     padding: 15,
     marginBottom: 20,
@@ -86,13 +88,11 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 5,
     borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
     paddingBottom: 5,
   },
   summaryItem: {
     fontSize: 16,
     marginBottom: 8,
-    color: '#333',
   },
   buttonContainer: {
     flexDirection: 'row',

@@ -1,18 +1,16 @@
 import { Stack } from 'expo-router';
+import ThemedStack from '../../components/ThemedStack';
 
 export default function CharacterLayout() {
   return (
-    <Stack>
+    <ThemedStack>
       <Stack.Screen 
         name="new" 
         options={{ 
           title: 'Create Character',
-          headerStyle: {
-            backgroundColor: '#f5f5f5',
-          },
           headerShadowVisible: false,
         }} 
       />
-    </Stack>
+    </ThemedStack>
   );
 }

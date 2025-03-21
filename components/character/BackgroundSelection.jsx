@@ -1,5 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { ThemedView } from '@/components/ThemedView';
+import { ThemedText } from '@/components/ThemedText';
+import { ThemedTextInput } from '@/components/ThemedTextInput';
+import { ThemedScrollView } from '@/components/ThemedScrollView';
+import { ThemedTouchableOpacity } from '@/components/ThemedTouchableOpacity';
 
 /**
  * Component for selecting a character background
@@ -13,35 +18,35 @@ const BackgroundSelection = ({ backgrounds, selectBackground, showBackgroundFeat
   );
   
   return (
-    <View style={styles.section}>
-      <Text style={styles.title}>Choose a Background</Text>
-      <Text style={styles.subtitle}>Your background provides additional skills and equipment</Text>
+    <ThemedView style={styles.section}>
+      <ThemedText style={styles.title}>Choose a Background</ThemedText>
+      <ThemedText style={styles.subtitle}>Your background provides additional skills and equipment</ThemedText>
       
-      <TextInput
+      <ThemedTextInput
         style={styles.searchInput}
         placeholder="Search backgrounds..."
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
       
-      <ScrollView style={styles.selectionContainer}>
+      <ThemedScrollView style={styles.selectionContainer}>
         {filteredBackgrounds.map((background, index) => (
-          <View key={`${background.name}-${index}`} style={styles.cardContainer}>
-            <TouchableOpacity 
+          <ThemedView key={`${background.name}-${index}`} style={styles.cardContainer}>
+            <ThemedTouchableOpacity 
               style={styles.card}
               onPress={() => selectBackground(background)}
             >
-              <View style={styles.cardHeader}>
-                <Text style={styles.optionName}>{background.name}</Text>
-                <Text style={styles.optionDescription}>
+              <ThemedView style={styles.cardHeader}>
+                <ThemedText style={styles.optionName}>{background.name}</ThemedText>
+                <ThemedText style={styles.optionDescription}>
                   {typeof background.description === 'string' 
                     ? background.description.substring(0, 100) + '...'
                     : 'No description available'}
-                </Text>
-              </View>
+                </ThemedText>
+              </ThemedView>
               
-              <View style={styles.skillsContainer}>
-                <Text style={styles.skillsText}>
+              <ThemedView style={styles.skillsContainer}>
+                <ThemedText style={styles.skillsText}>
                   Skills: {(() => {
                     // Try to get skills from skillProficiencies first
                     if (background.skillProficiencies) {
@@ -66,29 +71,29 @@ const BackgroundSelection = ({ backgrounds, selectBackground, showBackgroundFeat
                           .join(', ')
                       : 'None';
                   })()}
-                </Text>
-              </View>
+                </ThemedText>
+              </ThemedView>
               
-              <View style={styles.cardFooter}>
-                <TouchableOpacity 
+              <ThemedView style={styles.cardFooter}>
+                <ThemedTouchableOpacity 
                   style={styles.viewFeaturesButton}
                   onPress={() => showBackgroundFeatures(background)}
                 >
-                  <Text style={styles.viewFeaturesText}>View Features</Text>
-                </TouchableOpacity>
+                  <ThemedText style={styles.viewFeaturesText}>View Features</ThemedText>
+                </ThemedTouchableOpacity>
                 
-                <TouchableOpacity 
+                <ThemedTouchableOpacity 
                   style={styles.selectButton}
                   onPress={() => selectBackground(background)}
                 >
-                  <Text style={styles.selectButtonText}>Select</Text>
-                </TouchableOpacity>
-              </View>
-            </TouchableOpacity>
-          </View>
+                  <ThemedText style={styles.selectButtonText}>Select</ThemedText>
+                </ThemedTouchableOpacity>
+              </ThemedView>
+            </ThemedTouchableOpacity>
+          </ThemedView>
         ))}
-      </ScrollView>
-    </View>
+      </ThemedScrollView>
+    </ThemedView>
   );
 };
 
@@ -110,11 +115,9 @@ const styles = StyleSheet.create({
   searchInput: {
     height: 40,
     borderWidth: 1,
-    borderColor: '#ddd',
     borderRadius: 8,
     paddingHorizontal: 10,
     marginBottom: 10,
-    backgroundColor: '#fff',
   },
   selectionContainer: {
     flex: 1,
@@ -123,7 +126,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   card: {
-    backgroundColor: '#f9f9f9',
     borderRadius: 8,
     padding: 15,
     shadowColor: '#000',
@@ -133,6 +135,8 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   cardHeader: {
+    padding: 10,
+    borderRadius: 5,
     marginBottom: 10,
   },
   optionName: {
@@ -145,7 +149,6 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   skillsContainer: {
-    backgroundColor: '#e0e0fa',
     padding: 8,
     borderRadius: 5,
     marginBottom: 10,
