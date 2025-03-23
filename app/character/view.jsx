@@ -3,10 +3,7 @@ import { StyleSheet } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAbilityModifier } from '../../utils/dataLoader';
-import { ThemedView } from '../../components/ThemedView';
-import { ThemedText } from '../../components/ThemedText';
-import { ThemedTouchableOpacity } from '../../components/ThemedTouchableOpacity';
-import { ThemedScrollView } from '../../components/ThemedScrollView';
+import { ThemedView, ThemedText, ThemedTouchableOpacity, ThemedScrollView } from '../../components/Themed';
 
 export default function ViewCharacter() {
   const params = useLocalSearchParams();

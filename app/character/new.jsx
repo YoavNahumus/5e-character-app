@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -21,9 +21,7 @@ import BackgroundSelection from '../../components/character/BackgroundSelection'
 import AbilityScores from '../../components/character/AbilityScores';
 import CharacterSummary from '../../components/character/CharacterSummary';
 import FeatureModal from '../../components/character/FeatureModal';
-import { ThemedView } from '../../components/ThemedView';
-import { ThemedText } from '../../components/ThemedText';
-import { ThemedTextInput } from '../../components/ThemedTextInput';
+import { ThemedView, ThemedText, ThemedTextInput } from '../../components/Themed';
 
 export default function NewCharacterScreen() {
   const router = useRouter();

@@ -19,7 +19,7 @@ export default function SpellList() {
     let filtered = spells;
     if (searchQuery) {
       filtered = filtered.filter(spell => 
-        spell.name.toLowerCase().includes(searchQuery.toLowerCase())
+        spell.name.toLowerCase().startsWith(searchQuery.toLowerCase())
       );
     }
     if (selectedLevel !== null) {

@@ -2,10 +2,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Link } from 'expo-router';
 import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ThemedView } from '../components/ThemedView';
-import { ThemedText } from '../components/ThemedText';
-import { ThemedTouchableOpacity } from '../components/ThemedTouchableOpacity';
-import { ThemedScrollView } from '../components/ThemedScrollView';
+import { ThemedView, ThemedText, ThemedTouchableOpacity, ThemedScrollView } from '../components/Themed';
 
 export default function Home() {
   const [characters, setCharacters] = useState([]);
@@ -14,7 +11,7 @@ export default function Home() {
     AsyncStorage.getItem('characters').then((charactersString) => {
       setCharacters(charactersString ? JSON.parse(charactersString) : []);
     });
-  }, []);
+  });
 
   return (
     <ThemedView style={styles.container}>
