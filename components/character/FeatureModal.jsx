@@ -1,9 +1,5 @@
 import React from 'react';
-import { Modal, StyleSheet } from 'react-native';
-import { ThemedScrollView } from '@/components/ThemedScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedTouchableOpacity } from '@/components/ThemedTouchableOpacity';
-import { ThemedView } from '@/components/ThemedView';
+import { Modal, StyleSheet, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 
 /**
  * Component for displaying feature details in a modal
@@ -16,15 +12,15 @@ const FeatureModal = ({ visible, content, onClose, parseSpecialTags }) => {
       visible={visible}
       onRequestClose={onClose}
     >
-      <ThemedView style={styles.modalContainer}>
-        <ThemedView style={styles.modalContent}>
-          <ThemedText style={styles.modalTitle}>{content?.title || 'Features'}</ThemedText>
+      <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+          <Text style={styles.modalTitle}>{content?.title || 'Features'}</Text>
           
-          <ThemedScrollView style={styles.modalBody}>
+          <ScrollView style={styles.modalBody}>
             {content?.content && content.content.map((feature, index) => (
-              <ThemedView style={styles.featureItem} key={index}>
-                <ThemedText style={styles.featureTitle}>{feature.name}</ThemedText>
-                <ThemedText style={styles.featureDescription}>
+              <View style={styles.featureItem} key={index}>
+                <Text style={styles.featureTitle}>{feature.name}</Text>
+                <Text style={styles.featureDescription}>
                   {typeof feature.entries === 'string' ? parseSpecialTags(feature.entries) : 
                    Array.isArray(feature.entries) ? feature.entries.map(entry => {
                      if (typeof entry === 'string') return parseSpecialTags(entry);
@@ -42,19 +38,19 @@ const FeatureModal = ({ visible, content, onClose, parseSpecialTags }) => {
                      return '';
                    }).join('\n') : 
                    'No description available'}
-                </ThemedText>
-              </ThemedView>
+                </Text>
+              </View>
             ))}
-          </ThemedScrollView>
+          </ScrollView>
           
-          <ThemedTouchableOpacity
+          <TouchableOpacity
             style={styles.closeButton}
             onPress={onClose}
           >
-            <ThemedText style={styles.closeButtonText}>Close</ThemedText>
-          </ThemedTouchableOpacity>
-        </ThemedView>
-      </ThemedView>
+            <Text style={styles.closeButtonText}>Close</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
     </Modal>
   );
 };

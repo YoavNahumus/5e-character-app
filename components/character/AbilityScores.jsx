@@ -1,22 +1,23 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { ThemedView } from '@/components/ThemedView'
-import { ThemedText } from '@/components/ThemedText'
-import { ThemedTouchableOpacity } from '@/components/ThemedTouchableOpacity'
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+
+const baseAbilities = {
+  strength: 8,
+  dexterity: 8,
+  constitution: 8,
+  intelligence: 8,
+  wisdom: 8,
+  charisma: 8
+};
+const basePoints = 27;
 
 /**
  * Component for setting ability scores
  */
 const AbilityScores = ({ character, setCharacter, goToNext, goBack }) => {
-  const [availablePoints, setAvailablePoints] = useState(27);
-  const [abilities, setAbilities] = useState({
-    strength: 8,
-    dexterity: 8,
-    constitution: 8,
-    intelligence: 8,
-    wisdom: 8,
-    charisma: 8
-  });
+  const [availablePoints, setAvailablePoints] = useState(basePoints);
+  const [unlockPoints, setUnlockPoints] = useState(false);
+  const [abilities, setAbilities] = useState(baseAbilities);
 
   // Get ability modifier based on score
   const getAbilityModifier = (score) => {
@@ -35,13 +36,13 @@ const AbilityScores = ({ character, setCharacter, goToNext, goBack }) => {
     const newScore = currentScore + change;
     
     // Validate constraints
-    if (newScore < 8 || newScore > 15) return;
+    if (!unlockPoints && (newScore < 8 || newScore > 15)) return;
     
     // Calculate point cost
     const pointCost = change > 0 ? getPointCost(currentScore) : getPointCost(currentScore - 1) * -1;
     
     // Check if enough points available
-    if (availablePoints - pointCost < 0) return;
+    if (!unlockPoints && availablePoints - pointCost < 0) return;
     
     // Update state
     setAbilities({
@@ -52,109 +53,95 @@ const AbilityScores = ({ character, setCharacter, goToNext, goBack }) => {
     setAvailablePoints(availablePoints - pointCost);
   };
 
-  // Apply racial ability bonuses if available
-  const applyRacialBonuses = (baseAbilities) => {
-    const raceBonuses = character.abilityBonuses || {};
-    const result = { ...baseAbilities };
-    
-    Object.entries(raceBonuses).forEach(([ability, bonus]) => {
-      if (result[ability]) {
-        result[ability] += bonus;
-      }
-    });
-    
-    return result;
-  };
+  const changePointLock = () => {
+    if (unlockPoints) {
+      setAbilities(baseAbilities);
+      setAvailablePoints(basePoints);
+    }
+    setUnlockPoints(!unlockPoints);
+  }
 
   // Handle finalization of ability scores
   const finalizeAbilityScores = () => {
-    // Apply racial bonuses to base scores
-    const finalAbilities = applyRacialBonuses(abilities);
-    
     // Update character with final ability scores
     setCharacter({
       ...character,
-      abilities: finalAbilities
+      abilities: abilities
     });
     
     // Move to next step
     goToNext();
   };
 
-  // Combine base score with racial bonus for display
-  const getFinalScore = (ability) => {
-    const baseScore = abilities[ability];
-    const raceBonus = (character.abilityBonuses && character.abilityBonuses[ability]) || 0;
-    return baseScore + raceBonus;
-  };
-
   return (
-    <ThemedView style={styles.section}>
-      <ThemedText style={styles.title}>Set Ability Scores</ThemedText>
-      <ThemedText style={styles.subtitle}>
+    <View style={styles.section}>
+      <Text style={styles.title}>Set Ability Scores</Text>
+      <Text style={styles.subtitle}>
         Points remaining: {availablePoints}
-      </ThemedText>
+      </Text>
+      <TouchableOpacity
+        style={{...styles.controlButton, width: 200}}
+        onPress={() => {changePointLock()}}
+      >
+        <Text style={styles.controlButtonText}>
+          {unlockPoints ? "Lock Points" : "Unlock Points"}
+        </Text>
+      </TouchableOpacity>
       
-      <ThemedView style={styles.abilityContainer}>
+      <View style={styles.abilityContainer}>
         {Object.entries(abilities).map(([ability, score]) => {
-          const finalScore = getFinalScore(ability);
-          const modifier = getAbilityModifier(finalScore);
+          const modifier = getAbilityModifier(score);
           const modifierDisplay = modifier >= 0 ? `+${modifier}` : `${modifier}`;
-          const raceBonus = (character.abilityBonuses && character.abilityBonuses[ability]) || 0;
           
           return (
-            <ThemedView key={ability} style={styles.abilityRow}>
-              <ThemedText style={styles.abilityName}>
+            <View key={ability} style={styles.abilityRow}>
+              <Text style={styles.abilityName}>
                 {ability.charAt(0).toUpperCase() + ability.slice(1)}
-              </ThemedText>
+              </Text>
               
-              <ThemedView style={styles.scoreControls}>
-                <ThemedTouchableOpacity
-                  style={[styles.controlButton, abilities[ability] <= 8 && styles.disabledButton]}
+              <View style={styles.scoreControls}>
+                <TouchableOpacity
+                  style={[styles.controlButton, !unlockPoints && abilities[ability] <= 8 && styles.disabledButton]}
                   onPress={() => updateAbility(ability, -1)}
-                  disabled={abilities[ability] <= 8}
+                  disabled={!unlockPoints && abilities[ability] <= 8}
                 >
-                  <ThemedText style={styles.controlButtonText}>-</ThemedText>
-                </ThemedTouchableOpacity>
+                  <Text style={styles.controlButtonText}>-</Text>
+                </TouchableOpacity>
                 
-                <ThemedView style={styles.scoreDisplay}>
-                  <ThemedText style={styles.baseScore}>{score}</ThemedText>
-                  {raceBonus > 0 && (
-                    <ThemedText style={styles.raceBonus}>+{raceBonus}</ThemedText>
-                  )}
-                  <ThemedText style={styles.finalScore}>{finalScore}</ThemedText>
-                  <ThemedText style={styles.modifier}>{modifierDisplay}</ThemedText>
-                </ThemedView>
+                <View style={styles.scoreDisplay}>
+                  <Text style={styles.baseScore}>{score}</Text>
+                  <Text style={styles.modifier}>{modifierDisplay}</Text>
+                </View>
                 
-                <ThemedTouchableOpacity
-                  style={[styles.controlButton, (abilities[ability] >= 15 || availablePoints < getPointCost(abilities[ability])) && styles.disabledButton]}
+                <TouchableOpacity
+                  style={[styles.controlButton, (!unlockPoints && (abilities[ability] >= 15 || availablePoints < getPointCost(abilities[ability]))) && styles.disabledButton]}
                   onPress={() => updateAbility(ability, 1)}
-                  disabled={abilities[ability] >= 15 || availablePoints < getPointCost(abilities[ability])}
+                  disabled={!unlockPoints && (abilities[ability] >= 15 || availablePoints < getPointCost(abilities[ability]))}
                 >
-                  <ThemedText style={styles.controlButtonText}>+</ThemedText>
-                </ThemedTouchableOpacity>
-              </ThemedView>
-            </ThemedView>
+                  <Text style={styles.controlButtonText}>+</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           );
         })}
-      </ThemedView>
+      </View>
       
-      <ThemedView style={styles.buttonContainer}>
-        <ThemedTouchableOpacity 
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity 
           style={styles.backButton}
           onPress={goBack}
         >
-          <ThemedText style={styles.buttonText}>Back</ThemedText>
-        </ThemedTouchableOpacity>
+          <Text style={styles.buttonText}>Back</Text>
+        </TouchableOpacity>
         
-        <ThemedTouchableOpacity 
+        <TouchableOpacity 
           style={styles.nextButton}
           onPress={finalizeAbilityScores}
         >
-          <ThemedText style={styles.buttonText}>Next</ThemedText>
-        </ThemedTouchableOpacity>
-      </ThemedView>
-    </ThemedView>
+          <Text style={styles.buttonText}>Next</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 
@@ -221,10 +208,6 @@ const styles = StyleSheet.create({
   raceBonus: {
     fontSize: 14,
     color: 'green',
-  },
-  finalScore: {
-    fontSize: 24,
-    fontWeight: 'bold',
   },
   modifier: {
     fontSize: 16,

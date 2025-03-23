@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getAbilityModifier } from '../../utils/dataLoader';
-import { ThemedView, ThemedText, ThemedTouchableOpacity, ThemedScrollView } from '../../components/Themed';
 
 export default function ViewCharacter() {
   const params = useLocalSearchParams();
@@ -47,23 +46,23 @@ export default function ViewCharacter() {
 
   if (loading) {
     return (
-      <ThemedView style={styles.container}>
-        <ThemedText style={styles.title}>Loading character...</ThemedText>
-      </ThemedView>
+      <View style={styles.container}>
+        <Text style={styles.title}>Loading character...</Text>
+      </View>
     );
   }
 
   if (!character) {
     return (
-      <ThemedView style={styles.container}>
-        <ThemedText style={styles.title}>Character not found</ThemedText>
-        <ThemedTouchableOpacity 
+      <View style={styles.container}>
+        <Text style={styles.title}>Character not found</Text>
+        <TouchableOpacity 
           style={styles.button}
           onPress={() => router.replace('/')}
         >
-          <ThemedText style={styles.buttonText}>Return to Home</ThemedText>
-        </ThemedTouchableOpacity>
-      </ThemedView>
+          <Text style={styles.buttonText}>Return to Home</Text>
+        </TouchableOpacity>
+      </View>
     );
   }
 
@@ -76,76 +75,76 @@ export default function ViewCharacter() {
   }
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedScrollView style={styles.ThemedScrollView}>
-        <ThemedView style={styles.headerContainer}>
-          <ThemedText style={styles.characterName}>{character.name}</ThemedText>
-          <ThemedView style={styles.subheader}>
-            <ThemedText style={styles.detail}>{character.race} {character.class}</ThemedText>
-            <ThemedText style={styles.detail}>Level {character.level}</ThemedText>
-            <ThemedText style={styles.detail}>Background: {character.background}</ThemedText>
-          </ThemedView>
-        </ThemedView>
+    <View style={styles.container}>
+      <ScrollView style={styles.ScrollView}>
+        <View style={styles.headerContainer}>
+          <Text style={styles.characterName}>{character.name}</Text>
+          <View style={styles.subheader}>
+            <Text style={styles.detail}>{character.race} {character.class}</Text>
+            <Text style={styles.detail}>Level {character.level}</Text>
+            <Text style={styles.detail}>Background: {character.background}</Text>
+          </View>
+        </View>
 
-        <ThemedView style={styles.section}>
-          <ThemedText style={styles.sectionTitle}>Ability Scores</ThemedText>
-          <ThemedView style={styles.abilityScoresContainer}>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Ability Scores</Text>
+          <View style={styles.abilityScoresContainer}>
             {character.abilities && Object.entries(character.abilities).map(([ability, score]) => (
-              <ThemedView key={ability} style={styles.abilityScore}>
-                <ThemedText style={styles.abilityName}>{ability.slice(0, 3).toUpperCase()}</ThemedText>
-                <ThemedText style={styles.abilityValue}>{score}</ThemedText>
-                <ThemedText style={styles.abilityModifier}>
+              <View key={ability} style={styles.abilityScore}>
+                <Text style={styles.abilityName}>{ability.slice(0, 3).toUpperCase()}</Text>
+                <Text style={styles.abilityValue}>{score}</Text>
+                <Text style={styles.abilityModifier}>
                   {abilityModifiers[ability] >= 0 ? `+${abilityModifiers[ability]}` : abilityModifiers[ability]}
-                </ThemedText>
-              </ThemedView>
+                </Text>
+              </View>
             ))}
-          </ThemedView>
-        </ThemedView>
+          </View>
+        </View>
 
-        <ThemedView style={styles.section}>
-          <ThemedText style={styles.sectionTitle}>Proficiency Bonus</ThemedText>
-          <ThemedText style={styles.proficiencyBonus}>+{character.proficiencyBonus}</ThemedText>
-        </ThemedView>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Proficiency Bonus</Text>
+          <Text style={styles.proficiencyBonus}>+{character.proficiencyBonus}</Text>
+        </View>
 
         {character.skills && character.skills.length > 0 && (
-          <ThemedView style={styles.section}>
-            <ThemedText style={styles.sectionTitle}>Skills</ThemedText>
-            <ThemedView style={styles.skillsContainer}>
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Skills</Text>
+            <View style={styles.skillsContainer}>
               {character.skills.map((skill, index) => (
-                <ThemedText key={index} style={styles.skill}>
+                <Text key={index} style={styles.skill}>
                   {typeof skill === 'string' 
                     ? skill.charAt(0).toUpperCase() + skill.slice(1)
                     : ''}
-                </ThemedText>
+                </Text>
               ))}
-            </ThemedView>
-          </ThemedView>
+            </View>
+          </View>
         )}
 
         {character.features && character.features.length > 0 && (
-          <ThemedView style={styles.section}>
-            <ThemedText style={styles.sectionTitle}>Features</ThemedText>
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Features</Text>
             {character.features.map((feature, index) => (
-              <ThemedView key={index} style={styles.featureItem}>
-                <ThemedText style={styles.featureName}>
+              <View key={index} style={styles.featureItem}>
+                <Text style={styles.featureName}>
                   {feature.name || 'Feature'}
-                </ThemedText>
-                <ThemedText style={styles.featureDescription}>
+                </Text>
+                <Text style={styles.featureDescription}>
                   {feature.description || feature.entries || ''}
-                </ThemedText>
-              </ThemedView>
+                </Text>
+              </View>
             ))}
-          </ThemedView>
+          </View>
         )}
 
-        <ThemedTouchableOpacity 
+        <TouchableOpacity 
           style={styles.button}
           onPress={() => router.replace('/')}
         >
-          <ThemedText style={styles.buttonText}>Return to Home</ThemedText>
-        </ThemedTouchableOpacity>
-      </ThemedScrollView>
-    </ThemedView>
+          <Text style={styles.buttonText}>Return to Home</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -154,7 +153,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
   },
-  ThemedScrollView: {
+  ScrollView: {
     flex: 1,
   },
   headerContainer: {

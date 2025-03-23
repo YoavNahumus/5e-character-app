@@ -1,69 +1,66 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { ThemedView } from '@/components/ThemedView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedTouchableOpacity } from '@/components/ThemedTouchableOpacity';
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
 /**
  * Component for displaying character summary and saving
  */
 const CharacterSummary = ({ character, getAbilityModifier, saveCharacter, goBack }) => {
   return (
-    <ThemedView style={styles.section}>
-      <ThemedText style={styles.title}>Character Summary</ThemedText>
+    <View style={styles.section}>
+      <Text style={styles.title}>Character Summary</Text>
       
-      <ThemedView style={styles.summaryContainer}>
-        <ThemedText style={styles.summaryItem}>Name: {character.name || 'Unnamed'}</ThemedText>
-        <ThemedText style={styles.summaryItem}>Race: {character.race}</ThemedText>
-        <ThemedText style={styles.summaryItem}>Class: {character.class}</ThemedText>
-        <ThemedText style={styles.summaryItem}>Background: {character.background}</ThemedText>
+      <View style={styles.summaryContainer}>
+        <Text style={styles.summaryItem}>Name: {character.name || 'Unnamed'}</Text>
+        <Text style={styles.summaryItem}>Race: {character.race}</Text>
+        <Text style={styles.summaryItem}>Class: {character.class}</Text>
+        <Text style={styles.summaryItem}>Background: {character.background}</Text>
         
-        <ThemedText style={styles.summaryHeader}>Ability Scores:</ThemedText>
+        <Text style={styles.summaryHeader}>Ability Scores:</Text>
         {character.abilities && Object.entries(character.abilities).map(([ability, score]) => {
           const modifier = getAbilityModifier(score);
           const modifierText = modifier >= 0 ? `+${modifier}` : `${modifier}`;
           return (
-            <ThemedText key={ability} style={styles.summaryItem}>
+            <Text key={ability} style={styles.summaryItem}>
               {ability.charAt(0).toUpperCase() + ability.slice(1)}: {score} ({modifierText})
-            </ThemedText>
+            </Text>
           );
         })}
         
         {character.skills && character.skills.length > 0 && (
           <>
-            <ThemedText style={styles.summaryHeader}>Skills:</ThemedText>
-            <ThemedText style={styles.summaryItem}>{character.skills.join(', ')}</ThemedText>
+            <Text style={styles.summaryHeader}>Skills:</Text>
+            <Text style={styles.summaryItem}>{character.skills.join(', ')}</Text>
           </>
         )}
         
         {character.features && character.features.length > 0 && (
           <>
-            <ThemedText style={styles.summaryHeader}>Features:</ThemedText>
+            <Text style={styles.summaryHeader}>Features:</Text>
             {character.features.map((feature, index) => (
-              <ThemedText key={index} style={styles.summaryItem}>
+              <Text key={index} style={styles.summaryItem}>
                 {typeof feature === 'string' ? feature : feature.name}
-              </ThemedText>
+              </Text>
             ))}
           </>
         )}
-      </ThemedView>
+      </View>
       
-      <ThemedView style={styles.buttonContainer}>
-        <ThemedTouchableOpacity 
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity 
           style={styles.backButton}
           onPress={goBack}
         >
-          <ThemedText style={styles.buttonText}>Back</ThemedText>
-        </ThemedTouchableOpacity>
+          <Text style={styles.buttonText}>Back</Text>
+        </TouchableOpacity>
         
-        <ThemedTouchableOpacity 
+        <TouchableOpacity 
           style={styles.finishButton}
           onPress={saveCharacter}
         >
-          <ThemedText style={styles.buttonText}>Save Character</ThemedText>
-        </ThemedTouchableOpacity>
-      </ThemedView>
-    </ThemedView>
+          <Text style={styles.buttonText}>Save Character</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
 };
 

@@ -1,11 +1,10 @@
 import { Stack } from 'expo-router';
-import { ThemedStack } from '../components/Themed';
 import { View } from 'react-native';
 
 export default function Layout() {
   return (
     <View style={{ flex: 1 }}>
-      <ThemedStack screenOptions={{headerShadowVisible: false}}>
+      <Stack screenOptions={{headerShadowVisible: false}}>
         <Stack.Screen 
           name="index" 
           options={{ 
@@ -30,7 +29,7 @@ export default function Layout() {
             headerShown: false 
           }} 
         />
-      </ThemedStack>
+      </Stack>
     </View>
   );
 }

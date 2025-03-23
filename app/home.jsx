@@ -1,8 +1,7 @@
-import { StyleSheet, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Text, ScrollView } from 'react-native';
 import { Link } from 'expo-router';
 import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ThemedView, ThemedText, ThemedTouchableOpacity, ThemedScrollView } from '../components/Themed';
 
 export default function Home() {
   const [characters, setCharacters] = useState([]);
@@ -14,24 +13,24 @@ export default function Home() {
   });
 
   return (
-    <ThemedView style={styles.container}>
-      <ThemedText style={styles.title}>D&D 5E Character Manager</ThemedText>
-      <ThemedScrollView style={styles.content}>
+    <View style={styles.container}>
+      <Text style={styles.title}>D&D 5E Character Manager</Text>
+      <ScrollView style={styles.content}>
         {characters.map((char, index) => (
           <Link key={index} href={`/character/view?id=${char.id}`} asChild>
-            <ThemedTouchableOpacity key={index} style={styles.characterCard}>
-              <ThemedText style={styles.characterName}>{char.name}</ThemedText>
-              <ThemedText style={styles.characterInfo}>{char.race} - {char.class}</ThemedText>
-            </ThemedTouchableOpacity>
+            <TouchableOpacity key={index} style={styles.characterCard}>
+              <Text style={styles.characterName}>{char.name}</Text>
+              <Text style={styles.characterInfo}>{char.race} - {char.class}</Text>
+            </TouchableOpacity>
           </Link>
         ))}
-      </ThemedScrollView>
+      </ScrollView>
       <Link href="/character/new" asChild>
         <TouchableOpacity style={styles.createButton}>
-          <ThemedText style={styles.buttonText}>Create New Character</ThemedText>
+          <Text style={styles.buttonText}>Create New Character</Text>
         </TouchableOpacity>
       </Link>
-    </ThemedView>
+    </View>
   );
 }
 

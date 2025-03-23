@@ -1,9 +1,8 @@
 import { Stack } from 'expo-router';
-import ThemedStack from '../../components/ThemedStack';
 
 export default function CharacterLayout() {
   return (
-    <ThemedStack>
+    <Stack>
       <Stack.Screen 
         name="new" 
         options={{ 
@@ -11,6 +10,6 @@ export default function CharacterLayout() {
           headerShadowVisible: false,
         }} 
       />
-    </ThemedStack>
+    </Stack>
   );
 }

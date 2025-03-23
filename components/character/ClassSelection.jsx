@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { ThemedScrollView } from '@/components/ThemedScrollView';
-import { ThemedTextInput } from '@/components/ThemedTextInput';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedTouchableOpacity } from '@/components/ThemedTouchableOpacity';
-import { ThemedView } from '@/components/ThemedView';
+import { StyleSheet, ScrollView, TextInput, Text, TouchableOpacity, View } from 'react-native';
 
 /**
  * Component for selecting a character class
@@ -18,58 +13,58 @@ const ClassSelection = ({ classes, selectClass, showClassFeatures }) => {
   );
   
   return (
-    <ThemedView style={styles.section}>
-      <ThemedText style={styles.title}>Choose Your Class</ThemedText>
-      <ThemedText style={styles.subtitle}>Your class determines your abilities and progression</ThemedText>
+    <View style={styles.section}>
+      <Text style={styles.title}>Choose Your Class</Text>
+      <Text style={styles.subtitle}>Your class determines your abilities and progression</Text>
       
-      <ThemedTextInput
+      <TextInput
         style={styles.searchInput}
         placeholder="Search classes..."
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
       
-      <ThemedScrollView style={styles.selectionContainer}>
+      <ScrollView style={styles.selectionContainer}>
         {filteredClasses.map((charClass, index) => (
-          <ThemedView key={`${charClass.name}-${index}`} style={styles.cardContainer}>
-            <ThemedTouchableOpacity 
+          <View key={`${charClass.name}-${index}`} style={styles.cardContainer}>
+            <TouchableOpacity 
               style={styles.card}
               onPress={() => selectClass(charClass)}
             >
-              <ThemedView style={styles.option}>
-                <ThemedText style={styles.optionName}>{charClass.name}</ThemedText>
-                <ThemedText style={styles.optionDescription}>
+              <View style={styles.option}>
+                <Text style={styles.optionName}>{charClass.name}</Text>
+                <Text style={styles.optionDescription}>
                   Hit Die: d{charClass.hd && charClass.hd.faces}
-                </ThemedText>
+                </Text>
                 {charClass.proficiency && (
-                  <ThemedText style={styles.optionDescription}>
+                  <Text style={styles.optionDescription}>
                     Proficient Saves: {Array.isArray(charClass.proficiency.saves) 
                       ? charClass.proficiency.saves.join(', ') 
                       : 'None'}
-                  </ThemedText>
+                  </Text>
                 )}
-              </ThemedView>
+              </View>
               
-              <ThemedView style={styles.cardFooter}>
-                <ThemedTouchableOpacity 
+              <View style={styles.cardFooter}>
+                <TouchableOpacity 
                   style={styles.viewFeaturesButton}
                   onPress={() => showClassFeatures(charClass)}
                 >
-                  <ThemedText style={styles.viewFeaturesText}>View Features</ThemedText>
-                </ThemedTouchableOpacity>
+                  <Text style={styles.viewFeaturesText}>View Features</Text>
+                </TouchableOpacity>
                 
-                <ThemedTouchableOpacity 
+                <TouchableOpacity 
                   style={styles.selectButton}
                   onPress={() => selectClass(charClass)}
                 >
-                  <ThemedText style={styles.selectButtonText}>Select</ThemedText>
-                </ThemedTouchableOpacity>
-              </ThemedView>
-            </ThemedTouchableOpacity>
-          </ThemedView>
+                  <Text style={styles.selectButtonText}>Select</Text>
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
+          </View>
         ))}
-      </ThemedScrollView>
-    </ThemedView>
+      </ScrollView>
+    </View>
   );
 };
 

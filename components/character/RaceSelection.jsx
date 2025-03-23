@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
-import { ThemedText} from '@/components/ThemedText';
-import { ThemedTouchableOpacity } from '@/components/ThemedTouchableOpacity';
-import { ThemedView } from '@/components/ThemedView';
-import { ThemedTextInput } from '@/components/ThemedTextInput';
-import { ThemedScrollView } from '@/components/ThemedScrollView';
+import { StyleSheet, Text, TouchableOpacity, View, TextInput, ScrollView } from 'react-native';
 
 /**
  * Component for selecting a character race
@@ -18,62 +13,62 @@ const RaceSelection = ({ races, selectRace, showRaceFeatures }) => {
   ) || [];
   
   return (
-    <ThemedView style={styles.section}>
-      <ThemedText style={styles.title}>Choose Your Race</ThemedText>
-      <ThemedText style={styles.subtitle}>Your race determines various traits and abilities</ThemedText>
+    <View style={styles.section}>
+      <Text style={styles.title}>Choose Your Race</Text>
+      <Text style={styles.subtitle}>Your race determines various traits and abilities</Text>
       
-      <ThemedTextInput
+      <TextInput
         style={styles.searchInput}
         placeholder="Search races..."
         value={searchQuery}
         onChangeText={setSearchQuery}
       />
       
-      <ThemedScrollView style={styles.selectionContainer}>
+      <ScrollView style={styles.selectionContainer}>
         {filteredRaces.map((race, index) => (
-          <ThemedView key={`${race.name}-${index}`} style={styles.cardContainer}>
-            <ThemedTouchableOpacity 
+          <View key={`${race.name}-${index}`} style={styles.cardContainer}>
+            <TouchableOpacity 
               style={styles.card}
               onPress={() => selectRace(race)}
             >
-              <ThemedView style={styles.option}>
-                <ThemedText style={styles.optionName}>{race.name}</ThemedText>
-                <ThemedText style={styles.optionDescription}>
+              <View style={styles.option}>
+                <Text style={styles.optionName}>{race.name}</Text>
+                <Text style={styles.optionDescription}>
                   Size: {race.size}, Speed: {race.speed} ft.
-                </ThemedText>
-                <ThemedView style={styles.abilityBonuses}>
+                </Text>
+                <View style={styles.abilityBonuses}>
                   {race.abilityScoreIncreases && race.abilityScoreIncreases.length > 0 && race.abilityScoreIncreases[0] && 
                     Object.entries(race.abilityScoreIncreases[0]).map(([ability, bonus]) => (
-                      <ThemedView key={ability} style={styles.abilityBonus}>
-                        <ThemedText style={styles.abilityBonusText}>
+                      <View key={ability} style={styles.abilityBonus}>
+                        <Text style={styles.abilityBonusText}>
                           {ability.substring(0, 3).toUpperCase()} +{bonus}
-                        </ThemedText>
-                      </ThemedView>
+                        </Text>
+                      </View>
                     ))
                   }
-                </ThemedView>
-              </ThemedView>
+                </View>
+              </View>
               
-              <ThemedView style={styles.cardFooter}>
-                <ThemedTouchableOpacity 
+              <View style={styles.cardFooter}>
+                <TouchableOpacity 
                   style={styles.viewFeaturesButton}
                   onPress={() => showRaceFeatures(race)}
                 >
-                  <ThemedText style={styles.viewFeaturesText}>View Features</ThemedText>
-                </ThemedTouchableOpacity>
+                  <Text style={styles.viewFeaturesText}>View Features</Text>
+                </TouchableOpacity>
                 
-                <ThemedTouchableOpacity 
+                <TouchableOpacity 
                   style={styles.selectButton}
                   onPress={() => selectRace(race)}
                 >
-                  <ThemedText style={styles.selectButtonText}>Select</ThemedText>
-                </ThemedTouchableOpacity>
-              </ThemedView>
-            </ThemedTouchableOpacity>
-          </ThemedView>
+                  <Text style={styles.selectButtonText}>Select</Text>
+                </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
+          </View>
         ))}
-      </ThemedScrollView>
-    </ThemedView>
+      </ScrollView>
+    </View>
   );
 };
 

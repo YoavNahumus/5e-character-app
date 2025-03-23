@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, SafeAreaView, TouchableOpacity, View, Text, TextInput } from 'react-native';
 import { useRouter } from 'expo-router';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -21,7 +21,6 @@ import BackgroundSelection from '../../components/character/BackgroundSelection'
 import AbilityScores from '../../components/character/AbilityScores';
 import CharacterSummary from '../../components/character/CharacterSummary';
 import FeatureModal from '../../components/character/FeatureModal';
-import { ThemedView, ThemedText, ThemedTextInput } from '../../components/Themed';
 
 export default function NewCharacterScreen() {
   const router = useRouter();
@@ -227,24 +226,24 @@ export default function NewCharacterScreen() {
   
   // Render functions for each step
   const renderNameInput = () => (
-    <ThemedView style={styles.section}>
-      <ThemedText style={styles.title}>Name Your Character</ThemedText>
-      <ThemedTextInput
+    <View style={styles.section}>
+      <Text style={styles.title}>Name Your Character</Text>
+      <TextInput
         style={styles.nameInput}
         placeholder="Enter character name"
         value={character.name}
         onChangeText={(text) => setCharacter({...character, name: text})}
       />
-      <ThemedView style={styles.buttonContainer}>
-        <ThemedView style={styles.spacer} />
+      <View style={styles.buttonContainer}>
+        <View style={styles.spacer} />
         <TouchableOpacity 
           style={styles.nextButton}
           onPress={() => setCurrentStep('race')}
         >
-          <ThemedText style={styles.buttonText}>Next</ThemedText>
+          <Text style={styles.buttonText}>Next</Text>
         </TouchableOpacity>
-      </ThemedView>
-    </ThemedView>
+      </View>
+    </View>
   );
   
   // Render the current step
