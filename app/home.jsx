@@ -2,9 +2,12 @@ import { StyleSheet, TouchableOpacity, View, Text, ScrollView } from 'react-nati
 import { Link } from 'expo-router';
 import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useTheme } from '../constants/Theme';
+import { Colors } from '../constants/Colors';
 
 export default function Home() {
   const [characters, setCharacters] = useState([]);
+  const { theme } = useTheme();
 
   useEffect(() => {
     AsyncStorage.getItem('characters').then((charactersString) => {
@@ -13,45 +16,45 @@ export default function Home() {
   });
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>D&D 5E Character Manager</Text>
-      <ScrollView style={styles.content}>
+    <ScrollView style={[styles.container, { backgroundColor: Colors[theme].background }]}>
+      <View style={styles.content}>
+        <Text style={[styles.title, { color: Colors[theme].text }]}>Your Characters</Text>
         {characters.map((char, index) => (
           <Link key={index} href={`/character/view?id=${char.id}`} asChild>
-            <TouchableOpacity key={index} style={styles.characterCard}>
-              <Text style={styles.characterName}>{char.name}</Text>
-              <Text style={styles.characterInfo}>{char.race} - {char.class}</Text>
+            <TouchableOpacity key={index} style={[styles.characterCard, { backgroundColor: Colors[theme].card }]}>
+              <Text style={[styles.characterName, { color: Colors[theme].text }]}>{char.name}</Text>
+              <Text style={[styles.characterInfo, { color: Colors[theme].text }]}>{char.race} - {char.class}</Text>
             </TouchableOpacity>
           </Link>
         ))}
-      </ScrollView>
-      <Link href="/character/new" asChild>
-        <TouchableOpacity style={styles.createButton}>
+        <TouchableOpacity 
+          style={[styles.createButton, { backgroundColor: Colors[theme].primary }]}
+          onPress={() => {/* Handle create character */}}
+        >
           <Text style={styles.buttonText}>Create New Character</Text>
         </TouchableOpacity>
-      </Link>
-    </View>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  content: {
     padding: 20,
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 20,
     textAlign: 'center',
   },
-  content: {
-    flex: 1,
-  },
   characterCard: {
     padding: 15,
-    borderRadius: 10,
-    marginBottom: 10,
+    borderRadius: 12,
+    marginBottom: 15,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -67,11 +70,15 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   createButton: {
-    backgroundColor: '#2196F3',
     padding: 15,
-    borderRadius: 10,
+    borderRadius: 12,
     alignItems: 'center',
-    marginTop: 10,
+    marginTop: 20,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   buttonText: {
     color: 'white',

@@ -1,10 +1,23 @@
 import { Stack } from 'expo-router';
 import { View } from 'react-native';
+import { ThemeProvider } from '../constants/Theme';
+import { Colors } from '../constants/Colors';
+import { useTheme } from '../constants/Theme';
 
-export default function Layout() {
+function ThemedLayout() {
+  const { theme } = useTheme();
+  
   return (
-    <View style={{ flex: 1 }}>
-      <Stack screenOptions={{headerShadowVisible: false}}>
+    <View style={{ flex: 1, backgroundColor: Colors[theme].background }}>
+      <Stack 
+        screenOptions={{
+          headerShadowVisible: false,
+          headerStyle: {
+            backgroundColor: Colors[theme].background,
+          },
+          headerTintColor: Colors[theme].text,
+        }}
+      >
         <Stack.Screen 
           name="index" 
           options={{ 
@@ -15,6 +28,12 @@ export default function Layout() {
           name="home" 
           options={{ 
             title: 'Characters'
+          }} 
+        />
+        <Stack.Screen 
+          name="renderer_demo" 
+          options={{ 
+            headerShown: false 
           }} 
         />
         <Stack.Screen 
@@ -31,5 +50,13 @@ export default function Layout() {
         />
       </Stack>
     </View>
+  );
+}
+
+export default function Layout() {
+  return (
+    <ThemeProvider>
+      <ThemedLayout />
+    </ThemeProvider>
   );
 }
